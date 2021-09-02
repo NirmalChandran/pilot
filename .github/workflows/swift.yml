@@ -1,0 +1,20 @@
+name: Swift
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild clean build -workspace "demo.xcworkspace" -scheme "demo" -destination "platform=iOS Simulator,name=iPhone 12 Pro,OS=latest" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+    - name: Run tests
+      run: sxcodebuild clean test -workspace "demo.xcworkspace" -scheme "demotests" -destination "platform=iOS Simulator,name=iPhone 12 Pro,OS=latest" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+      
